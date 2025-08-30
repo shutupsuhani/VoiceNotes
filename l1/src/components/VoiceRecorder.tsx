@@ -104,6 +104,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onNoteCreated }) =
           Authorization: `Bearer ${token}`,
         },
         body: formData,
+        credentials: "include",
       });
 
       if (!res.ok) throw new Error('Upload failed');

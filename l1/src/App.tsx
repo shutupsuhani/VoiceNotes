@@ -33,6 +33,7 @@ function App() {
 
         const res = await fetch("https://voice-notes-backend.vercel.app/api/notes/getnotes", {
           headers: { Authorization: `Bearer ${token}` },
+          credentials: "include",
         });
 
         if (!res.ok) throw new Error("Failed to fetch notes");
@@ -76,6 +77,7 @@ function App() {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      credentials: "include",
     });
 
     if (!res.ok) {

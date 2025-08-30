@@ -41,6 +41,7 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({ note, onSave, onCancel }
           "Authorization": `Bearer ${localStorage.getItem("token")}`, // if auth
         },
         body: JSON.stringify(updatedNote),
+        credentials: "include",
       });
 
       if (!res.ok) {
