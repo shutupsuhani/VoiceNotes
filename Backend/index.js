@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();   
 
 // Middleware
-app.use(cors());
+
 app.use(cors({
   origin: ["https://voice-notes-bysuhani.vercel.app","http://localhost:5173"], 
   credentials: true, // required for cookies
