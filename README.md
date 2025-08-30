@@ -10,6 +10,14 @@ The app supports **JWT authentication** and **cookie-based sessions** with prope
 ## Deployed Link:https://voice-notes-bysuhani.vercel.app/
 
 ---
+
+## Deployed Links
+
+- **Frontend:** [Voice Notes App](https://voice-notes-bysuhani.vercel.app/)  
+- **Backend:** [API Backend](https://voice-notes-backend.vercel.app/)
+
+
+---
 ## Features
 
 - User Authentication (Signup/Login/Logout) with JWT & cookies
@@ -56,7 +64,7 @@ Create a .env file with your secrets:
 
 
 MONGO_URL=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
+KEY=your_jwt_secret
 ASSEMBLYAI_API_KEY=your_assemblyai_api_key
 GEMINI_API_KEY=your_gemini_api_key
 PORT=5000
