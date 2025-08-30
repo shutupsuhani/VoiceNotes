@@ -13,20 +13,8 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(cors({
-  origin: (origin, callback) => {
-    const allowedOrigins = [
-      "https://voice-notes-bysuhani.vercel.app",
-      "http://localhost:5173",
-    ];
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true); 
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "DELETE"], 
-
+  origin: "https://voice-notes-bysuhani.vercel.app",
+  credentials: true
 }));
 app.use(express.json()); 
 
