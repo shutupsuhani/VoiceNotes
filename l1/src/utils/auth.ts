@@ -3,7 +3,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:4000/api/auth",
+  baseURL: "https://voice-notes-backend.vercel.app/api/auth",
   withCredentials: true, // allow sending/receiving cookies
 });
 
@@ -25,7 +25,7 @@ export const getCurrentUser = () => {
 
 export const fetchUserNotesAPI = async () => {
   const token = localStorage.getItem("token");
-  const res = await fetch("http://localhost:4000/api/notes/getnotes", {
+  const res = await fetch("https://voice-notes-backend.vercel.app/api/notes/getnotes", {
     headers: {
       Authorization: `Bearer ${token}`,
     },

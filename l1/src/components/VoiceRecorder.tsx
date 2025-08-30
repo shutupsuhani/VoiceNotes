@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { Mic, Square } from 'lucide-react';
 import { VoiceNote } from '../types';
 
@@ -98,7 +98,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({ onNoteCreated }) =
     }
 
     try {
-      const res = await fetch('http://localhost:4000/api/notes/create', {
+      const res = await fetch('https://voice-notes-backend.vercel.app/api/notes/create', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,

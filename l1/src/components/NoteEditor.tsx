@@ -34,7 +34,7 @@ export const NoteEditor: React.FC<NoteEditorProps> = ({ note, onSave, onCancel }
     }
 
     try {
-      const res = await fetch(`http://localhost:4000/api/notes/${note._id}`, {
+      const res = await fetch(`https://voice-notes-backend.vercel.app/api/notes/${note._id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

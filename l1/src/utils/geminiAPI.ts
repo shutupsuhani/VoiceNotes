@@ -1,7 +1,7 @@
 // utils/geminiAPI.ts
 export const generateSummaryAPI = async (_id: string): Promise<string> => {
   try {
-    const response = await fetch(`http://localhost:4000/api/notes/summary/${_id}`, {
+    const response = await fetch(`https://voice-notes-backend.vercel.app/api/notes/summary/${_id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
