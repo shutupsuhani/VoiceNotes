@@ -13,9 +13,12 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(cors({
-  origin: "https://voice-notes-bysuhani.vercel.app",
-  credentials: true
+  origin: ["https://voice-notes-bysuhani.vercel.app","http://localhost:5173"], 
+  credentials: true, // required for cookies
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 }));
+
 app.use(express.json()); 
 
 // Routes
