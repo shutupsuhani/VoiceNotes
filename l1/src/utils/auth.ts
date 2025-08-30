@@ -44,16 +44,16 @@ export const fetchUserNotesAPI = async () => {
 
 // Auth APIs
 export const signup = async (data: { username: string; email: string; password: string }) => {
-  const res = await API.post("/signup", data);
+  const res = await API.post("https://voice-notes-backend.vercel.app/api/signup", data);
   return res.data;
 };
 
 export const login = async (data: { email: string; password: string }) => {
-  const res = await API.post("/login", data);
+  const res = await API.post("/https://voice-notes-backend.vercel.app/api/auth/login", data);
   return res.data;
 };
 
 export const logout = async () => {
-  const res = await API.get("/logout", { withCredentials: true });
+  const res = await API.get("/https://voice-notes-backend.vercel.app/api/auth/logout", { withCredentials: true });
   return res.data;
 };
