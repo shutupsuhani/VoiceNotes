@@ -1,10 +1,7 @@
-// utils.ts
-
 import axios from "axios";
 
-// Axios instance for auth-related requests
+// Axios instance (no baseURL now)
 const API = axios.create({
-  baseURL: "https://voice-notes-backend.vercel.app/api/auth",
   withCredentials: true, // send/receive cookies
 });
 
@@ -35,25 +32,27 @@ export const fetchUserNotesAPI = async () => {
       Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
-    credentials: "include", // <-- important for cookies
+    credentials: "include",
   });
 
   if (!res.ok) throw new Error("Failed to fetch notes");
-  return await res.json(); // returns array of VoiceNote
+  return await res.json();
 };
 
 // Auth APIs
 export const signup = async (data: { username: string; email: string; password: string }) => {
-  const res = await API.post("https://voice-notes-backend.vercel.app/api/signup", data);
+  const res = await API.post("https://voice-notes-backend.vercel.app/api/auth/signup", data);
   return res.data;
 };
 
 export const login = async (data: { email: string; password: string }) => {
-  const res = await API.post("/https://voice-notes-backend.vercel.app/api/auth/login", data);
+  const res = await API.post("https://voice-notes-backend.vercel.app/api/auth/login", data);
   return res.data;
 };
 
 export const logout = async () => {
-  const res = await API.get("/https://voice-notes-backend.vercel.app/api/auth/logout", { withCredentials: true });
+  const res = await API.get("https://voice-notes-backend.vercel.app/api/auth/logout", {
+    withCredentials: true,
+  });
   return res.data;
 };
