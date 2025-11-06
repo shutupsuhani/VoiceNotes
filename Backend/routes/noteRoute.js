@@ -62,7 +62,7 @@ router.post("/summary/:id", authenticate, async (req, res) => {
 
     res.json({ summary });
   } catch (err) {
-    console.error("❌ Gemini API error:", err);
+    console.error("Gemini API error:", err.response?.data || err.message || err);
     res.status(500).json({ message: "Failed to generate summary" });
   }
 });
