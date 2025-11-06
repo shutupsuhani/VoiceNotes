@@ -3,6 +3,7 @@ import multer from "multer";
 import { AssemblyAI } from "assemblyai";
 import  authenticate  from "../middleware/auth.js";
 import { Note } from "../models/Note.js";
+import { GoogleGenAI } from "@google/genai";
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -10,6 +11,9 @@ const upload = multer({ storage: multer.memoryStorage() });
 const client = new AssemblyAI({
   apiKey: process.env.ASSEMBLYAI_API_KEY,
 });
+
+
+const ai=new GoogleGenAI(process.env.GEMINI_API_KEY);
 
 router.post("/create", authenticate, upload.single("audio"), async (req, res) => {
   try {
@@ -37,39 +41,21 @@ router.post("/create", authenticate, upload.single("audio"), async (req, res) =>
 
 // Generate summary using Gemini
 router.post("/summary/:id", authenticate, async (req, res) => {
-  try {
+     try {
     const noteId = req.params.id;
     const note = await Note.findById(noteId);
     if (!note) return res.status(404).json({ message: "Note not found" });
 
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: `Summarize the following note concisely:\n${note.transcript}`,
-                },
-              ],
-            },
-          ],
-        }),
-      }
-    );
+    // --- Simplified API Call with SDK ---
+    const prompt = `Summarize the following note concisely:\n${note.transcript}`;
+    
+    const geminiResponse = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: [{ role: "user", parts: [{ text: prompt }] }],
+    });
 
-    const data = await response.json();
-
-    // Gemini’s response structure is different from PaLM
-    const summary =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "Summary not generated";
-
+    const summary = geminiResponse.text || "Summary not generated";
+   
     note.summary = summary;
     note.isEdited = false;
     await note.save();
