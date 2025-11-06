@@ -72,7 +72,7 @@ function App() {
     const token = localStorage.getItem("token");
     if (!token) return;
 
-    const res = await fetch(`http://localhost:4000/api/notes/${_id}`, {
+    const res = await fetch(`https://voice-notes-backend.vercel.app/api/notes/${_id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
