@@ -3,7 +3,7 @@ import multer from "multer";
 import { AssemblyAI } from "assemblyai";
 import  authenticate  from "../middleware/auth.js";
 import { Note } from "../models/Note.js";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
 const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
@@ -13,7 +13,7 @@ const client = new AssemblyAI({
 });
 
 
-const ai=new GoogleGenAI(process.env.GEMINI_API_KEY);
+const genAI=new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 router.post("/create", authenticate, upload.single("audio"), async (req, res) => {
   try {
@@ -41,28 +41,28 @@ router.post("/create", authenticate, upload.single("audio"), async (req, res) =>
 
 // Generate summary using Gemini
 router.post("/summary/:id", authenticate, async (req, res) => {
-     try {
+  try {
     const noteId = req.params.id;
     const note = await Note.findById(noteId);
     if (!note) return res.status(404).json({ message: "Note not found" });
 
-    // --- Simplified API Call with SDK ---
+    // Prepare the prompt
     const prompt = `Summarize the following note concisely:\n${note.transcript}`;
-    
-    const geminiResponse = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
-      contents: [{ role: "user", parts: [{ text: prompt }] }],
-    });
 
-    const summary = geminiResponse.text || "Summary not generated";
-   
+    // ✅ Use the correct method and model name
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+    const result = await model.generateContent(prompt);
+
+    // Extract text safely
+    const summary = result.response.text() || "Summary not generated";
+
     note.summary = summary;
     note.isEdited = false;
     await note.save();
 
     res.json({ summary });
   } catch (err) {
-    console.error("Gemini API error:", err);
+    console.error("❌ Gemini API error:", err);
     res.status(500).json({ message: "Failed to generate summary" });
   }
 });
